@@ -5,6 +5,15 @@
 	<link rel="stylesheet" href="styles/monokai-sublime.css">
 	<script src="highlight.pack.js"></script>
 	<script>hljs.initHighlightingOnLoad();</script>	
+    <style type="text/css">
+        .tab { 
+            display:inline-block; 
+            margin-left: 40px; } 
+        .tab2{
+            display:inline-block; 
+            margin-left: 60px;
+        }           
+    </style>
 </head>
 <body>
 	<h3>Array List</h3>
@@ -183,6 +192,7 @@ theItems = (AnyType []) new Object[ newCapacity ];
 			<li>peek();</li>
 			<li>isEmpty();</li>
 			<li>size();</li>
+            <li>isFull (if fixed size)</li>
 		<li>LIFO: Last In First Out</li>
 		<li>We can use anything that supports a list operation to realize this data structure</li>	
 		<li>We can think of pushing at a[theSize++] = target</li>
@@ -194,8 +204,176 @@ theItems = (AnyType []) new Object[ newCapacity ];
 		<li>Recursive method calls are a stack. The top of the stack is the last call the recursive function</li>
 		<li>Palindromes are also a good implementation of a stack</li>
 		<li>Reverse an entire piece of data, push it all onto the stack, then pop the entire stack</li>
+    <h3>Queue</h3>
+        <li>FIFO: First In First Out</li>    
+        <li>Methods Needed</li>
+            <ul>size</ul>
+            <ul>isEmpty</ul>
+            <ul>isFull (if fixed size)</ul>
+            <ul>enqueue</ul>
+            <ul>dequeue</ul>
+         <li>You always add on one end and remove from the other end</li>
+         <li>Queues with Arrays</li>
+            <p>PICTURE HERE 4-1 4-2</p>
+         <li>Queues with Singly Linked List</li>
+            <ul>Never Use! You guarantee O(N)</ul>
+         <li>Queues with Doubly Linked List</li>
+
+         <li>Example Problem</li>
+            <p>PICTURE HERE lec 4-3</p> 
+            <li>Let's use methods in the Linked List Class</li>
+                <pre>
+                    <code class ="java">
+// Concrete Class
+import java.util.LinkedList;
+//Interface
+import java.util.Queue;
+public class Josephus{
+    public static final void main(String[] args){
+        int count = 5;
+        // q is restricted to only what methods Queues use.
+        // q is a Linked List Object with restrictures from the Queue Interface
+        // Queue is an Interface and you can't instantiated Queues, only Concrete Classes
+        Queue<Integer> q = new LinkedList<Integer>();
+        for(int i=1; i<=10; i++){
+            //Enqueue Operation Here
+            q.offer(i)
+        }
+        int c = 0;
+        while(q.size()!=1){
+            int x = q.poll();
+            c++
+            if(c==5){
+                System.out.println("So long: "+ x);
+                c = 0;
+            }else{
+                q.offer(x);
+            }
+        }
+        System.out.println("The winner is: "+ q.poll());    
+    }
+}                                        
+                    </code>
+                </pre> 
+    <h3>Trees</h3>
+        <ul>Can be Defined Recursively</ul>
+        <ul>Has a Root node</ul>
+        <ul>Hanging off of the root nodes are sub trees</ul>
+        <ul>The sub trees are trees themselves</ul>
+        <ul>A Linked Tree is a Special Case of a Tree - A Tree where it has a 0 or 1 nodes hanging off of it</ul>
+        <p class="tab"><strong>Terminology</strong></p><br>
+            <p class ="tab2">Root - Top of the Tree, Head of the Tree</p><br>
+            <p class ="tab2">Children - Any node hanging off of a node </p><br>
+            <p class ="tab2">Siblings - Nodes that are children of the same Parent</p><br>
+            <p class ="tab2">Parent- A node that has children</p><br>
+            <p class ="tab2">Leaf Nodes- Nodes with no Children</p> <br>
+            <p class ="tab2">Interior Nodes - Nodes with No Leaves</p><br>
+            <p class ="tab2">Path - The set of edges that we follow to get from the root to another node</p><br>
+            <p class ="tab2">Edges - The 1 way connection from a parent to a child</p><br>
+            <p class ="tab2">Length of the Path - How many edges we traversed</p> <br>
+            <p class ="tab2">Depth of a Node - How far away am I from the root? Length of the unique path back to the root</ul><br>
+        <p class="tab">*Depth of the Root is 0</p><br>
+            <p class="tab2">Height of a Node - The length of the path from a given node to the furthest leaf</ul>             
+        <p class="tab">Empty Tree Height : -1 </p>
+        <p class ="tab">Generic Tree Code</p>
+            <pre>
+                <code class ="java">
+class TreeNode<AnyType>{
+    AnyType data;
+    TreeNode(AnyType) nextSibling;
+    // Example: For the Root -> There is no Siblings
+    // The way to access the other children of the root is the look at the sibling
+    TreeNode(AnyType) firstChild;
+    // Example: For the Root the First Child is the Left Most Child Node
+}                    
+                </code>
+            </pre>
+        <p> INSERT PICTURE HERE Lec 4-4</p>  
+        <p class="tab">Example of a Tree : File Directories on a Computer</p><br>
+        <p class ="tab2">Files: Leaves</p> <br>
+        <p class ="tab2">SubDirectories: Children</p> <br>
+        <p class="tab">Psuedo Code for a Pre Order Tree Traversal</p>
+            <pre>
+                <code class ="java">
+private void listAll(int depth){
+    printName(depth); //Print the name of the object with proper tabbing <- This is indicator that the node is visited
+    if(isDirectory())
+        for each file c in this directory (for each child)
+            c.listAll(depth +1);
+}
+//Driver Method That Hides the Book Keeping
+public void listAll(){
+    listAll(0);
+}                    
+                </code>
+            </pre>
+        <p class="tab2">Pre Order: Prints the Node then Print the Children</p><br>  
+        <p class ="tab2">Post Order: Print the Children First then Print the Node</p><br>
+        <p class ="tab">Binary Tree: Each Node is Restricted to having 0 1 or 2 children</p><br> 
+        <p class ="tab2">There is a Left Child and a Right Child of a Node</p><br>          
+        <p> INSERT PICTURE HERE Lec 4-5</p> 
+        <pre>
+            <code class ="java">
+class BTNode<AnyType>{
+    AnyType data,
+    BTNode<AnyType> left;
+    BTNode<AnyType> right;
+}                
+            </code>
+        </pre>
+        <p class="tab"><strong>Binary Tree Terminology</strong></p><br>
+        <p class="tab2">Full : Every node has either 2 children or has a leaf</p><br>
+        <p class ="tab2">Complete: One where every level is completely filled in except for the very last level but the last level has to be filled in from left to right</p><br>
+        <p class ="tab3">Perfect: Where Every Level is fully filled in</p>
+        <p>INSERT PICTURE HERE 4-6</p>
+        <p class ="tab"> Expression Tree :Each node of the tree can be 1 of 2 types (operator or an operand)</p>
+        <p class ="tab2">Operator Nodes are either the root or the right child</p>
+        <p class ="tab2">Operand Nodes are Leaves</p>
+        <p>INSERT PICTURE HERE 4-7</p>
+        <p class ="tab2">Example of a Expression Tree Pre Order Traversal</p>
+        <pre>
+            <code class ="java">
+int eval(ETNode t){
+    //Check if t is the operand or an operator
+    if(t.isOperand){
+        return t.value;
+    }
+    //Check the children of the operator
+    int lval = eval(t.left);
+    int rval = eval(t.right);
+    //Apply Method takes in operator and has a bunch of switch cases
+    return apply(t.operator, lval, rval);
+}                
+            </code>
+        </pre>
+        <p>*Make sure you add parenthesis of an infix so the order of operations work</p>
+        <p class="tab">If you perform a post order expression tree traversal you get a post fix expression (Reverse Polish Notation)</p>
 	<h3>Garbage Collection</h3>
 		<li>There is a mechanism that will de-allocate memory for objects that are no longer referenced.</li>
 		<li>for every object that you create, you add an extra piece of bookkeeping to it, called reference count then when you create a new reference of that object, you increment the reference count, then decrement it. When it is zero, then Java will come along and collect it.</li>
+    <h3>Code Examples</h3>
+        <h4>Reverse Polish Notation Calculator</h4> 
+            <p>If the In Fix Expression is : 3*(5+2).<br>
+               Then the Polish Expression is: 3 5 2 + *</p>
+            <p> This is a stack algorithm so we will need a stack.</p>
+                <li> Assume there is a Delimeter (Something to split the string by spaces)</li>  
+                <li> These are binary operators (Have 2 operands)</li>
+                <li> We loop through the String</li>
+                    <p>String: 3 5 2 + *</p>
+                    <ul>If it is a operand push onto a stack</ul>
+                    <ul>If it is a operator pop off the last 2 operands</ul>
+                        <ul>The right operand is the one that comes off first</ul>
+                        <ul>The left operand is the one that comes off second</ul>
+                            <p>Stack: 3 5 2</p>
+                            <p>+ -> Pop 2, 5</p>
+                                <li>If the pops fail, it is an incomplete expression</li>
+                            <p>Equation: 5 + 2</p>
+                        <ul>Calculate the value and push the result to the stack</ul>
+                            <p>Value -> 5+2 = 7</p>
+                            <p>Stack -> 3, 7</p>
+                     <ul>If we hit the last token. And we pop the stack. Check if the stack is empty</ul>
+                        <p>If empty -> Correct Answer</p>
+                        <p>If not -> Not a complete expression</p>       
+
 </body>
 </html>
