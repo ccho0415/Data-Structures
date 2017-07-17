@@ -5,23 +5,36 @@
 	<link rel="stylesheet" href="styles/monokai-sublime.css">
 	<script src="highlight.pack.js"></script>
 	<script>hljs.initHighlightingOnLoad();</script>
+    <style type="text/css">
+        .tab { 
+            display:inline-block; 
+            margin-left: 40px; } 
+        .tab2{
+            display:inline-block; 
+            margin-left: 60px;
+        }
+        .tab3{
+        	display: inline-block;
+			margin-left: 80px;
+        }           
+    </style>	
 </head>
 <body>
 	<h3>What is a data structure?</h3>
-		<p>A data structure is a way of organizing information</p>
+		<p class="tab">A data structure is a way of organizing information</p>
 	<h3>What is an algorithm?</h3>
-		<p>An algorithm is a sequence of steps that is performed on a data structure in order to solve certain tasks</p>	
-	<h3>Basic Data Structures</h3>
-		<li>Array</li>
-			<ul>A data structure that contains a contiguous set of elements where you only need to know the location of the initial element location in order to find the entire structure</ul>
-			<li>Types of Searches for Array</li>
-				<li>Unsorted</li>
-					<ul>Linear/Sequential Search : O(n)</ul>
-				<li>Sorted</li>
-					<ul>Binary Search : O(lg(n))</ul>	
-		<li>Array List</li>
-			<ul>A class that wraps around an Array that allows you to use methods to resize, change and grow the array as needed</ul>
-			<h4>Example for Array List</h4>
+		<p class="tab">An algorithm is a sequence of steps that is performed on a data structure in order to solve certain tasks</p>	
+	<h3>Basic Data Structures Topics</h3>
+		<p class="tab"><strong>What is an Array?</strong></p><br>
+			<p class="tab2">A data structure that contains a contiguous set of elements where you only need to know the location of the initial element location in order to find the entire structure</p><br>
+		<p class="tab"><strong>Types of Searches for Array</strong></p><br>
+			<p class="tab2">Unsorted</p><br>
+				<p class="tab3"><b>Linear/Sequential Search </b>: O(n)</p><br>
+			<p class="tab2">Sorted</p><br>
+				<p class="tab3"><b>Binary Search </b>: O(lg(n))</p>	<br>
+		<p class="tab"><strong>What is an Array List</strong></p><br>
+			<p class="tab2">A class that wraps around an Array that allows you to use methods to resize, change and grow the array as needed</p><br>
+		<p class ="tab"><strong>Example of an Array List</strong></p><br>
 			<pre>
 				<code class ="java">
 	ArrayList<AnyType> myArray = new ArrayList<Integer>();
@@ -29,27 +42,29 @@
 			</pre>
 
 			<br><br>
-		<li>Linked List</li>
-			<ul>A data structure that has a node with data, and a reference to the next element of the list(singly) or a reference to the next and previous elements of the list (doubly) </ul>	
+		<p class ="tab"><strong>What is a Linked List</strong></p><br>
+			<p class = "tab2">A data structure that has a node with data, and a reference to the next element of the list(singly) or a reference to the next and previous elements of the list (doubly) </p><br>	
 	<h3>Generics</h3>
 	<h3>Interfaces</h3>
-		<li>A set of operations.</li>
-		<li>An interface can extend other interfaces. (Whatever the super class has the subclass will also have)</li>
+		<p class ="tab"><strong>What is an Interface?</strong></p><br>
+			<p class = "tab2"> An Interface is a set of operations.</p><br>
+		<p class = "tab"><strong>Properties of an Interface</strong></p><br>
+			<p class ="tab2">An interface can extend other interfaces. (Whatever the super class has the subclass will also have)</p><br>
 	<h3>Recursion</h3>
-		<h4>The Four Rules</h4>
-			<li>There must be a base case. A case that acts as a terminating condition</li>
-			<li>Each time you call the function, you must be making progress towards that base case </li>
-			<li>Assume that the recursive call works.</li>
-			<li>Do not repeat work. (Compound Interest Rule) </li>
+		<h4 class ="tab">The Four Rules of Recursion</h4><br>
+			<p class="tab2">1. There must be a base case. A case that acts as a terminating condition</p><br>
+			<p class="tab2">2. Each time you call the function, you must be making progress towards that base case </p><br>
+			<p class="tab2">Assume that the recursive call works.</p><br>
+			<p class="tab2">Do not repeat work. (Compound Interest Rule) </p><br>
 	<h3>Proof By Induction</h3>		
 	<h3>Big O Analysis</h3>	
-		<h4>What is it?</h4>	
-			<ul>Allows for the abstraction of an algorithm regardless of hardware or types of data for the purposes of analysis</ul>
-			<ul>T(N) = O(f(N)) such that there exists some constants c and n<sub>0</sub> where T(N) is ≤ C(f(N)) for all n ≥ n<sub>0</sub>. This is an upperbound</ul>
-		<h4>What is the best metric for measure algorithms and runtimes?</h4>
-			<ul>Average Case</ul>
-		<h4>What type of analysis are we doing?</h4>	
-			<ul>Asymptotic</ul>	
+		<p class="tab"><strong>What is it?</strong></p><br>	
+			<p class="tab2">Big O Analysis allows for the abstraction of an algorithm regardless of hardware or types of data for the purposes of analysis</p><br>
+			<p class="tab2">T(N) = O(f(N)) such that there exists some constants c and n<sub>0</sub> where T(N) is ≤ C(f(N)) for all n ≥ n<sub>0</sub>. This is an upperbound</p><br>
+		<p class="tab"><strong>What is the best metric for measure algorithms and runtimes?</strong></p><br>
+			<p class="tab2">Average Case</p><br>
+		<p class ="tab"><strong>What type of analysis are we doing?</strong></p><br>	
+			<p class="tab2">Asymptotic</p><br>	
 		<h4>Table of Big O Relative Speeds</h4>
 		<table>
 			<thead>
@@ -102,51 +117,68 @@
 				</tbody>
 			</table>		
 	<h3>Big Ω</h3>
-		<h4>What is it?</h4>
-			<ul>T(N) = Ω(g(N)) such that there exists some constants c and n<sub>0</sub> where T(N) ≥ c(g(N)) for all n ≥ n<sub>0</sub>. This is a lower bound.</ul>	
+		<p class="tab"><strong>What is it?</strong></p><br>
+			<p class="tab2">T(N) = Ω(g(N)) such that there exists some constants c and n<sub>0</sub> where T(N) ≥ c(g(N)) for all n ≥ n<sub>0</sub>. This is a lower bound.</p><br>	
 	<h3>Big Θ</h3>
-		<h4>What is it?</h4>
-			<ul>T(N) = Θ(h(N)) if T(N) = Θ(h(N)) and T(N) = Ω(h(N)). The tightest bound possible.</ul>	
+		<p class="tab"><strong>What is it?</strong></p><br>
+			<p class="tab2">T(N) = Θ(h(N)) if T(N) = Θ(h(N)) and T(N) = Ω(h(N)). The tightest bound possible.</p><br>	
 	<h3>Algorithm Analysis</h3>
-		<li>If T<sub>1</sub>(N) is the of the first algorithm and T<sub>2</sub>(N) is the cost of the second algorithm, then T<sub>1</sub>(N) + T<sub>2</sub>(N) = O(f(N)+g(N)) </li>	
-		<li>If T(N) is a polynomial degree k, then T(N) = Θ(n<sup>k</sup>) </li>	
-		<li>log<sup>k</sup>(N) = O(N)</li>	
-	<h3>Abstract Data Type (ADT)</h3>	
-		<h4>Collections</h4>
+		<p class="tab">If T<sub>1</sub>(N) is the of the first algorithm and T<sub>2</sub>(N) is the cost of the second algorithm, then T<sub>1</sub>(N) + T<sub>2</sub>(N) = O(f(N)+g(N)) </p><br>	
+		<p class="tab">If T(N) is a polynomial degree k, then T(N) = Θ(n<sup>k</sup>) </p><br>	
+		<p class="tab">log<sup>k</sup>(N) = O(N)</p><br>	
+	<h3>Abstract Data Type Topics (ADT)</h3>	
+		<h4 class="tab">Collections</h4><br>
 
-		<h4>Lists</h4>
-			<li>A collection of data that has some order.</li>
-			<li>Intrinsic Behvaiors: </li>
-		<h4>ArrayList</h4>
-			<li>A class that implements the list interface.</li>
-			<li>Information Needed:</li>
-				<li>Array</li>
-				<li>The Length of the Array</li>
-			<li>When we’re adding items to an ArrayList, we’re just filling up an array data type. But when we need to resize the initial array, we’ll get hit with an order of n penalty, because we’ll have to resize the array to accomodate the new element.</li>	
-			<li>Adds are always expensive for arrayLists because you’ll have to insert the new element somewhere, then copy over all the old elements. This is the of the order of n for the cost of work.</li>
-			<li>searching for an element in an ArrayList would always be Big-O(1), but inserting is always an expensive operation (especially if inserting at the beginning of the ArrayList)</li>
-		<h4>Singly Linked List</h4>
-			<li>a singly linked list is built out of node objects</li>
-			<li>A node has 2 fields</li>
-				<li>Data</li>
-				<li>Pointer</li>
-				<code>java LLNode<AnyType> { AnyType data; LLNode<AnyType> next; }</code>	
-			<li>having a reference to the first node will provide a reference to every other node in the linked list</li>	
-			<li>placing an object at the end of the list would be Big-O(n), since we only have the reference to the first object</li>
-			<li>placing an object at the front of the list would just be Big-O(1)</li>
-			<li>searching or setting would have a worst case scenario of Big-O(n)</li>
-			<li>inserting into a linked list during interations would have a Big-O(1) based on where the iterator is</li>
-		<h4>Doubly Linked List</h4>
-			<li>a doubly linked list is built out of node objects</li>
-			<li>A node has 3 fields</li>
-				<li>Data</li>
-				<li>Next Pointer</li>
-				<li>Previous Pointer </li>
-				<code>java LLNode<AnyType> { AnyType data; LLNode<AnyType> next; LLNode<AnyType> prev; }</code>	
-			<li>Since you can move in both directions, there is a reference to both the first and last elements of the list</li>	
-			<li>the first and last nodes of a doubly linked list don’t actually store data (as sentinel nodes) and are the only references stores</li>
+		<h4 class="tab">Lists</h4><br>
+			<p class="tab2"><b>What is a List?</b></p><br>
+				<p class="tab3">A collection of data that has some order.</p><br>
+			<p class="tab2"><b>Intrinsic Behvaiors: </b></p><br>
+		<h4 class="tab">ArrayList</h4><br>
+			<p class="tab2"><b>What is an Array List?</b></p><br>
+				<p class="tab3">A class that implements the list interface.</p><br>
+			<p class="tab2"><b>Information Needed:</b></p><br>
+				<p class="tab3">Array</p><br>
+				<p class="tab3">The Length of the Array</p><br>
+			<p class="tab2"><b>Behaviors and Traits:</b></p><br>	
+				<p class="tab3">When we’re adding items to an ArrayList, we’re just filling up an array data type. But when we need to resize the initial array, we’ll get hit with an order of n penalty, because we’ll have to resize the array to accomodate the new element.</p><br>	
+				<p class="tab3">Adds are always expensive for arrayLists because you’ll have to insert the new element somewhere, then copy over all the old elements. This is the of the order of n for the cost of work.</p><br>
+				<p class="tab3">searching for an element in an ArrayList would always be Big-O(1), but inserting is always an expensive operation (especially if inserting at the beginning of the ArrayList)</p><br>
+		<h4 class="tab">Singly Linked List</h4><br>
+			<p class="tab2"><b>What is a Singly Linked List?</b></p><br>
+				<p class="tab3"> A singly linked list is a list built out of node objects</p><br>
+			<p class="tab2"><b>What Information Does a Node Have?</b></p><br>
+				<p class="tab3">Data</p><br>
+				<p class="tab3">Pointer</p><br>
+			<p class="tab2"><b>Example of a Singly Linked List</b></p><br>
+				<pre>
+					<code class ="java">
+java LLNode<AnyType> { AnyType data; LLNode<AnyType> next; }
+					</code>						
+				</pre>
+			<p class="tab2"><b>Behaviors and Traits</b></p><br>
+				<p class ="tab3">having a reference to the first node will provide a reference to every other node in the linked list</p><br>	
+				<p class ="tab3">placing an object at the end of the list would be Big-O(n), since we only have the reference to the first object</p><br>
+				<p class ="tab3">placing an object at the front of the list would just be Big-O(1)</p><br>
+				<p class ="tab3">searching or setting would have a worst case scenario of Big-O(n)</p><br>
+				<p class ="tab3">inserting into a linked list during interations would have a Big-O(1) based on where the iterator is</p><br>
+		<h4 class="tab">Doubly Linked List</h4><br>
+			<p class="tab2"><b>What is a Doubly Linked List?</b></p><br>
+				<p class="tab3">a doubly linked list is built out of node objects</p><br>
+			<p class="tab2"><b>What Information Does a Node Have?</b></p><br>
+				<p class="tab3">Data</p><br>
+				<p class="tab3">Next Pointer</p><br>
+				<p class="tab3">Previous Pointer </p><br>
+			<p class="tab2"><b>Example of a Doubly Linked List</b></p><br>
+				<pre>
+					<code class="java">
+java LLNode<AnyType> { AnyType data; LLNode<AnyType> next; LLNode<AnyType> prev; }
+					</code>	
+				</pre>	
+			<p class="tab2"><b>Behaviors and Traits</b></p><br>	
+				<p class ="tab3">Since you can move in both directions, there is a reference to both the first and last elements of the list</p><br>	
+				<p class ="tab3">the first and last nodes of a doubly linked list don’t actually store data (as sentinel nodes) and are the only references stores</p><br>
 	<h3>Code Examples</h3>
-		<h4>Binary Search Generics</h4>
+		<h4 class="tab">Binary Search Generics</h4>
 		<pre>
 			<code class ="java">
 public class BinarySearchGenerics {
@@ -190,7 +222,7 @@ public class BinarySearchGenerics {
 			</code>			
 		</pre>
 
-	<h4>Factorial</h4>
+	<h4 class="tab">Factorial</h4>
 	<pre>
 		<code class ="java">
 public class Factorial {
@@ -230,7 +262,7 @@ public class Factorial {
 		</code>		
 	</pre>
 	
-	<h4>Fibbonacci</h4>	
+	<h4 class="tab">Fibbonacci</h4>	
 		<pre>
 			<code class ="java">
 public class Fib {
@@ -262,7 +294,7 @@ public class Fib {
 			</code>			
 		</pre>
 
-	<h4>Person</h4>
+	<h4 class="tab">Person</h4>
 	<pre>
 		<code class ="java">
 public class Person implements Comparable<Person> {
@@ -293,7 +325,7 @@ public class Person implements Comparable<Person> {
 		</code>		
 	</pre>
 
-	<h4>Tower of Hanoi</h4>
+	<h4 class="tab">Tower of Hanoi</h4>
 		<pre>
 			<code class ="java">
 // Towers of Hanoi program
