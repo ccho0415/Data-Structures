@@ -2,9 +2,10 @@
 <html>
 <head>
 	<title>Week 3</title>
+    <meta charset="utf-8">
 	<link rel="stylesheet" href="styles/monokai-sublime.css">
 	<script src="highlight.pack.js"></script>
-	<script>hljs.initHighlightingOnLoad();</script>
+	<script>hljs.initHighlightingOnLoad();</script>	
     <style type="text/css">
         .tab { 
             display:inline-block; 
@@ -12,16 +13,465 @@
         .tab2{
             display:inline-block; 
             margin-left: 60px;
-        }
+        } 
         .tab3{
-        	display: inline-block;
-			margin-left: 80px;
-        }           
-    </style>	
+            display:inline-block; 
+            margin-left: 80px;            
+        }  
+        .tab4{
+            display:inline-block; 
+            margin-left: 100px;            
+        }        
+    </style>
 </head>
 <body>
-	<h3 class="tab"></h3><br>
-		<p class="tab2"></p><br>
-			<p class="tab3"></p><br>
-</body>
+    <h3>Expression Tree</h3><br>
+        <p class="tab">Sample Code</p><br>
+        <pre>
+            <code class ="java">
+public class ExpressionTree {
+    // Constructor
+    public ExpressionTree {
+    // here we write our stack based method for building an expression tree
+    // when we pop off the final node after
+    // processing all tokens, set root equal to that node
+    }   
+    //Return result of private eval method
+    public int eval(){
+        return eval(root);
+    }
+    private int eval (Node t){
+        //write your recursive algo here
+    }
+    private static class Node{
+        //Binary Sub Tree Must Have Left and Right Node
+        Node left;
+        Node right;
+        //Node data is either operator or operand
+        char operator;
+        int operand;
+        //When we construct a node we need to tell which variable to look at (operator or operand)
+        boolean isOperator;
+    }   
+    //Initializing a tree
+    Node root = null;
+}
+public class ExpressionTester{
+    public static final void main(String[] args){
+        //Construct Expression Tree and pass in expression
+        ExpressionTree tree = new ExpressionTree("35 6 2 + -");
+        
+        System.out.println(tree.eval());
+    }
+}                   
+            </code>
+        </pre>
+        <br><br>
+    <p class="tab">If there is a binary tree of height h the number of leaves is at most 2<sup>h</sup></p><br>
+        <p class="tab2">Base Case: h=0</p><br>
+        <p class="tab2">2<sup>0</sup> = 1</p><br>
+        <p class="tab2">Assume that all perfect binary trees of height n where n goes from 0 to h have 2<sup>n</sup> leaves</p><br>
+        <p class="tab2">INSERT lec 5-1</p><br>
+    <p class="tab2">Total nodes in perfect binary tree of height h is 2<sup>h+1</sup>-1</p><br>
+        <p class="tab2">Base Case: h=0</p><br>
+        <p class="tab2"> 2<sup>0+1</sup>-1 = 2-1 = 1</p><br>
+        <p class="tab2">assume true for heights 0 to h</p><br>
+        <p class="tab2"> prove < <sup>height</sup> h +1  -> # nodes -> 2<sup>h+2</sup>-1</p><br>
+        <p class="tab2"> INSERT lect 5-2</p><br>
+    <h3>Binary Search Trees (BST)</h3><br>
+        <p class="tab">BST Condition</p><br>
+            <p class="tab2">Stores data that can be compared</p><br>
+            <p class="tab2">Determines which of the data goes to the left node of the right node</p><br>
+        <p class="tab">Properties</p><br>
+            <p class="tab2">Everything left of the node is smaller than the node</p><br>
+            <p class="tab2">Everything right of the node is larger than the node</p><br>
+            <p class="tab2">There are no duplicate values for the nodes</p><br>
+            <p class="tab2">These conditions must hold true for all nodes in the tree</p><br>
+        <p class="tab">Picture Example</p><br>
+            <p class="tab2">INSERT 5-3 and 5-4 and 5-5</p><br>  
+        <p class="tab">Find Min and Find Max</p><br>
+            <p class="tab2">Find Min -> Keep going down left</p><br>
+            <p class="tab2">Find Max -> Keep going down right.</p><br>
+        <p class="tab">Remove Operation</p><br>
+            <p class="tab2">Removing a Node that is a Leaf : Just chop it off</p><br>
+            <p class="tab2">Removing a Node with 1 Child : bring that child up one height</p><br>
+            <p class="tab2">Removing a Node with 2 Children : Trickier. There are more options.</p><br>
+            <p class ="tab2">Replace with largest node in left sub tree or the smallest node in the right sub tree</p><br>  
+                <p class="tab3">Insert 5-6</p>
+        <p class="tab2">BST Sample Code</p><br>    
+            <pre>
+                <code class="java">            
+// BinarySearchTree class
+//
+// CONSTRUCTION: with no initializer
+//
+// ******************PUBLIC OPERATIONS*********************
+// void insert( x )       --> Insert x
+// void remove( x )       --> Remove x
+// boolean contains( x )  --> Return true if x is present
+// Comparable findMin( )  --> Return smallest item
+// Comparable findMax( )  --> Return largest item
+// boolean isEmpty( )     --> Return true if empty; else false
+// void makeEmpty( )      --> Remove all items
+// void printTree( )      --> Print tree in sorted order
+// ******************ERRORS********************************
+// Throws UnderflowException as appropriate
+
+/**
+ * Implements an unbalanced binary search tree.
+ * Note that all "matching" is based on the compareTo method.
+ * @author Mark Allen Weiss
+ */
+//Any Class Using this must be able to use Comparable     
+public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
+{
+    /**
+     * Construct the tree.
+     */
+    //Empty Binary Search Tree 
+    public BinarySearchTree( )
+    {
+        root = null;
+    }
+
+    /**
+     * Insert into the tree; duplicates are ignored.
+     * @param x the item to insert.
+     */
+    //Public Driver Method
+    // People using this method don't have any knowledge of node structures
+    public void insert( AnyType x )
+    {
+        //Invokes Recursive Insert
+        // This insert returns a value of the "new root"
+        root = insert( x, root );
+    }
+
+    /**
+     * Remove from the tree. Nothing is done if x is not found.
+     * @param x the item to remove.
+     */
+    //Public Driver Method   
+    // People using this method don't have any knowledge of node structures      
+    public void remove( AnyType x )
+    {
+        //Invokes Recursive Remove
+        // This insert returns a value of the "new root" if the root changes    
+        root = remove( x, root );
+    }
+
+    /**
+     * Find the smallest item in the tree.
+     * @return smallest item or null if empty.
+     */
+    //Public Driver Method   
+    // People using this method don't have any knowledge of node structures        
+    public AnyType findMin( )
+    {
+        //Recursive
+        if( isEmpty( ) )
+            throw new UnderflowException( );
+        return findMin( root ).element;
+    }
+
+    /**
+     * Find the largest item in the tree.
+     * @return the largest item of null if empty.
+     */
+    //Public Driver Method   
+    // People using this method don't have any knowledge of node structures        
+    public AnyType findMax( )
+    {
+        //Recursive
+        if( isEmpty( ) )
+            throw new UnderflowException( );
+        return findMax( root ).element;
+    }
+
+    /**
+     * Find an item in the tree.
+     * @param x the item to search for.
+     * @return true if not found.
+     */
+    //Public Driver Method   
+    // People using this method don't have any knowledge of node structures        
+    public boolean contains( AnyType x )
+    {
+        //Recursive
+        return contains( x, root );
+    }
+
+    /**
+     * Make the tree logically empty.
+     */
+    // Garbage collect 
+    public void makeEmpty( )
+    {
+        root = null;
+    }
+
+    /**
+     * Test if the tree is logically empty.
+     * @return true if empty, false otherwise.
+     */
+     // Check tree status
+    public boolean isEmpty( )
+    {
+        return root == null;
+    }
+
+    /**
+     * Print the tree contents in sorted order.
+     */
+    public void printTree( )
+    {
+        if( isEmpty( ) )
+            System.out.println( "Empty tree" );
+        else
+            printTree( root );
+    }
+
+    /**
+     * Internal method to insert into a subtree.
+     * @param x the item to insert.
+     * @param t the node that roots the subtree.
+     * @return the new root of the subtree.
+     */
+     // Helper Method for Insert Driver Method
+    private BinaryNode<AnyType> insert( AnyType x, BinaryNode<AnyType> t )
+    {
+        // Create a root where the data is null 
+        if( t == null )
+            return new BinaryNode<>( x, null, null );
+        
+        // Tells us where to insert value
+        int compareResult = x.compareTo( t.element );
+            
+        if( compareResult < 0 )
+            t.left = insert( x, t.left );
+        else if( compareResult > 0 )
+            t.right = insert( x, t.right );
+        //Empty Statement    
+        else
+            ;  // Duplicate value; do nothing
+        return t;
+    }
+
+    /**
+     * Internal method to remove from a subtree.
+     * @param x the item to remove.
+     * @param t the node that roots the subtree.
+     * @return the new root of the subtree.
+     */
+     // Turnary Operator -> ifelse();
+     // Bool Expression ? True Value : False Value
+    private BinaryNode<AnyType> remove( AnyType x, BinaryNode<AnyType> t )
+    {
+        if( t == null )
+            return t;   // Item not found; do nothing
+        
+        // Do a comparsion    
+        int compareResult = x.compareTo( t.element );
+        
+        // Recursively invoke remove on t.left    
+        if( compareResult < 0 )
+            t.left = remove( x, t.left );
+        else if( compareResult > 0 )
+        // Recursively invoke remove on t.right
+            t.right = remove( x, t.right );
+
+        // Only gets reached if there is a 0 value
+
+        else if( t.left != null && t.right != null ) // Two children
+        {
+            t.element = findMin( t.right ).element;
+            t.right = remove( t.element, t.right );
+        }
+        
+        // This happens if the node has 1 or fewer children
+        else
+        // if t.left is not null, then we want t to be t.left
+        // if t.left is null, the right child is the only child and if there are no children we set t to t.right.
+            t = ( t.left != null ) ? t.left : t.right; //If there are not two children
+        return t;
+    }
+
+    /**
+     * Internal method to find the smallest item in a subtree.
+     * @param t the node that roots the subtree.
+     * @return node containing the smallest item.
+     */
+    //Helper Method for Driver findMin
+    // Return reference to left most node. 
+    private BinaryNode<AnyType> findMin( BinaryNode<AnyType> t )
+    {
+        if( t == null )
+            return null;
+        // if there is no left node of t then t is currently the minimum    
+        else if( t.left == null )
+            return t;
+        // Tail Recursion. Inputs of Recursion is progressing the step in the recursive function (t+1)
+        // Usually can be written as a while loop    
+        return findMin( t.left );
+    }
+
+    /**
+     * Internal method to find the largest item in a subtree.
+     * @param t the node that roots the subtree.
+     * @return node containing the largest item.
+     */
+     //Helper Method for Driver findMax
+     // Return reference for right most node
+    private BinaryNode<AnyType> findMax( BinaryNode<AnyType> t )
+    {
+    //Example of How Else Tail Recursion can be written
+        if( t != null )
+            while( t.right != null )
+                t = t.right;
+
+        return t;
+    }
+
+    /**
+     * Internal method to find an item in a subtree.
+     * @param x is item to search for.
+     * @param t the node that roots the subtree.
+     * @return node containing the matched item.
+     */
+     // Private Helper Function
+     // t is the current subtree I am considering
+     // First call t is the node of the whole tree 
+    private boolean contains( AnyType x, BinaryNode<AnyType> t )
+    {
+        if( t == null )
+            return false;
+        // We compare the data of current node and what we are searching for       
+        int compareResult = x.compareTo( t.element );
+        
+        // Look at left subtree    
+        if( compareResult < 0 )
+            return contains( x, t.left );
+        // Look at right subtree    
+        else if( compareResult > 0 )
+            return contains( x, t.right );
+        else
+            return true;    // Match
+    }
+
+    /**
+     * Internal method to print a subtree in sorted order.
+     * @param t the node that roots the subtree.
+     */
+    // In Order Traversal -> Increasing Order 
+    private void printTree( BinaryNode<AnyType> t )
+    {
+        if( t != null )
+        {
+            // Print all nodes in the left subtree in order
+            printTree( t.left );
+            // Print root node
+            System.out.println( t.element );
+            // Print all nodes in the right subtree in order
+            printTree( t.right );
+        }
+    }
+
+    /**
+     * Internal method to compute height of a subtree.
+     * @param t the node that roots the subtree.
+     */
+    private int height( BinaryNode<AnyType> t )
+    {
+        if( t == null )
+            return -1;
+        else
+            return 1 + Math.max( height( t.left ), height( t.right ) );    
+    }
+    
+    // Basic node stored in unbalanced binary search trees
+    private static class BinaryNode<AnyType>
+    {
+            // Constructors
+        BinaryNode( AnyType theElement )
+        {
+            this( theElement, null, null );
+        }
+
+        BinaryNode( AnyType theElement, BinaryNode<AnyType> lt, BinaryNode<AnyType> rt )
+        {
+            element  = theElement;
+            left     = lt;
+            right    = rt;
+        }
+
+        AnyType element;            // The data in the node
+        BinaryNode<AnyType> left;   // Left child
+        BinaryNode<AnyType> right;  // Right child
+    }
+
+
+      /** The tree root. */
+    private BinaryNode<AnyType> root;
+
+
+        // Test program
+    public static void main( String [ ] args )
+    {
+        BinarySearchTree<Integer> t = new BinarySearchTree<>( );
+        final int NUMS = 4000;
+        final int GAP  =   37;
+
+        System.out.println( "Checking... (no more output means success)" );
+
+        for( int i = GAP; i != 0; i = ( i + GAP ) % NUMS )
+            t.insert( i );
+
+        for( int i = 1; i < NUMS; i+= 2 )
+            t.remove( i );
+
+        if( NUMS < 40 )
+            t.printTree( );
+        if( t.findMin( ) != 2 || t.findMax( ) != NUMS - 2 )
+            System.out.println( "FindMin or FindMax error!" );
+
+        for( int i = 2; i < NUMS; i+=2 )
+             if( !t.contains( i ) )
+                 System.out.println( "Find error1!" );
+
+        for( int i = 1; i < NUMS; i+=2 )
+        {
+            if( t.contains( i ) )
+                System.out.println( "Find error2!" );
+        }
+    }
+}
+
+                </code>
+            </pre>   
+            <p class="tab">Lazy Deletion</p><br>
+                <p class="tab2">When you mark something as "not active" instead of actually deleting it</p><br>
+                <p class="tab2">Always check to make sure the node status is active</p><br>
+                <p class="tab2">You can easily navigate this tree</p>
+                <p class="tab2">However findMin and findMax Methods become a lot harder</p>                        
+    <h3>Self Balancing Binary Search Trees</h3><br>
+        <p class="tab">Red Black Tree</p><br>
+            <p class="tab2">Most common tree</p><br> 
+        <p class="tab">AVL Tree</p><br>
+            <p class="tab2">Characteristics</p><br> 
+                <p class="tab3">It is a binary search tree. Adheres to BST Condition</p><br>
+                <p class="tab3">It also adheres to an AVL condition / Balance Condition</p><br>
+                    <p class="tab4">The left sub tree's height cannot be more than 1 away from the right subtree height.</p>  
+            <p class="tab2">How to Determine if it is an AVL Tree</p>
+                <p class="tab3">Insert 5-7 - 5-9</p><br>  
+                <p class="tab3">As long as we book keep the height within the nodes (store the height within the node), figuring out whether it is AVL compliant will be a constant time function</p>
+            <p class="tab2">How to Fix a Broken AVL Tree</p><br>
+                <p class="tab3">Insert 5-10</p><br>
+            <p class="tab2">AVL Notation</p><br>
+                <p class="tab3">Insert 5-13</p><br>   
+            <p class="tab2">AVL Examples</p> <br>
+                <p class="tab3">Insert 5-14</p> <br>
+                <p class="tab3">Links Break with Each Rotation, Some Nodes Drop, Some SubTrees are Orphaned. Orphaned SubTrees Usually are inserted back into their place later.</p><br>
+                <p class="tab3">All Operations will be lg N</p><br>         
+            <a href="https://www.cs.usfca.edu/~galles/visualization/AVLtree.html">AVL Tree Visualization</a> 
+
 </html>
