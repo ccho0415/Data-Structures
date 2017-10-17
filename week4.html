@@ -1,0 +1,869 @@
+<!DOCTYPE>
+<html>
+<head>
+	<title>Week 4</title>
+    <meta charset="utf-8">
+	<link rel="stylesheet" href="styles/monokai-sublime.css">
+	<script src="highlight.pack.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>	
+    <style type="text/css">
+        .tab { 
+            display:inline-block; 
+            margin-left: 40px; } 
+        .tab2{
+            display:inline-block; 
+            margin-left: 60px;
+        } 
+        .tab3{
+            display:inline-block; 
+            margin-left: 80px;            
+        }  
+        .tab4{
+            display:inline-block; 
+            margin-left: 100px;            
+        } 
+        h3{
+            background-color: #bef3f3;
+            color: #ff9933;
+            text-align: center;
+            padding: 10px;
+        }                
+    </style>
+</head>
+
+<body>
+	<h3>Probing Hash Tables</h3>
+		<p class="tab">Equation of Probing Location</p><br>
+			<p class="tab2">h<sub>i</sub>(x) = (hash(x)+f(i))% TableSize </p><br>
+		<p class="tab">Types of Probing</p><br>
+			<p class="tab2">Linear Probing: Start with Original Location, add +1 and mod by table size until you find an empty spot to insert into</p><br>
+				<p class="tab3">f(i)=i</p><br>
+				<p class="tab3">Insert 7-1</p><br>	
+				<p class="tab3">Problems: Primary Clustering -> When you have to add +1 too many times in order to find an empty spot to insert into (In example hash(28) you would have to add 1 around 4 times)</p><br>
+				<p class="tab3">Contains Function: Use the Formula</p><br>
+					<p class="tab4">If we use an empty cell as an indicator that the hash table does not contain the value, this can cause issues if you remove carelessly.(There is an empty cell between 2 values).</p><br>
+					<p class="tab4">How do we fix this issue? <br> Change the the remove function.<br>Initially, instead of fully removing the value, you can lazy delete instead. (Mark valid = false)<br> To get rid of these values later, when you rehash you do not copy these values over, you copy only valid values.</p><br>
+			<p class="tab2">Quadratic Probing: Start with Original Location, step by the square of i and then mod by the table size until you find an empty spot to insert into</p><br>
+				<p class="tab3">f(i)=i<sup>2</sup></p><br>		
+				<p class="tab3">Careful: Unless if your table size is prime, you may infinitely loop over</p><br>
+				<p class="tab3">Load Factor < 0.5 </p>
+					<p class="tab4">0 <= i <= TableSize/2 </p>
+				<p class="tab3">Insert 7-2</p><br>
+				<p class="tab3">Proof by Contradiction: Table Size must be Prime.</p>
+					<p class="tab4">Assume: 0<= i,j, <= TableSize/2 <br> i!= j <br> TableSize = prime</p><br>
+					<p class="tab4">Insert 7-3</p><br>
+		<h3>Sample Code</h3>
+			<p class="tab">Seperate Chaining</p>
+				<pre>
+					<code class="java">
+import java.util.LinkedList;
+import java.util.List;
+
+// SeparateChaining Hash table class
+//
+// CONSTRUCTION: an approximate initial size or default of 101
+//
+// ******************PUBLIC OPERATIONS*********************
+// void insert( x )       --> Insert x
+// void remove( x )       --> Remove x
+// boolean contains( x )  --> Return true if x is present
+// void makeEmpty( )      --> Remove all items
+
+/**
+ * Separate chaining table implementation of hash tables.
+ * Note that all "matching" is based on the equals method.
+ * @author Mark Allen Weiss
+ */
+public class SeparateChainingHashTable<AnyType>
+{
+    /**
+     * Construct the hash table.
+     */
+    public SeparateChainingHashTable( )
+    {
+        this( DEFAULT_TABLE_SIZE );
+    }
+
+    /**
+     * Construct the hash table.
+     * @param size approximate table size.
+     */
+
+    public SeparateChainingHashTable( int size )
+    {
+    	//Create a new array of lists
+        theLists = new LinkedList[ nextPrime( size ) ];
+        for( int i = 0; i < theLists.length; i++ )
+        	//Initilize the link lists in that array
+            theLists[ i ] = new LinkedList<>( );
+    }
+
+    /**
+     * Insert into the hash table. If the item is
+     * already present, then do nothing.
+     * @param x the item to insert.
+     */
+
+    public void insert( AnyType x )
+    {
+    	// reference to linked list where x would be if it existed (the location of x)
+        List<AnyType> whichList = theLists[ myhash( x ) ];
+        if( !whichList.contains( x ) )
+        {
+        	//List add method
+            whichList.add( x );
+
+                // Load Factor Over 1 So Rehash
+            if( ++currentSize > theLists.length )
+                rehash( );
+        }
+    }
+
+    /**
+     * Remove from the hash table.
+     * @param x the item to remove.
+     */
+    public void remove( AnyType x )
+    {
+        List<AnyType> whichList = theLists[ myhash( x ) ];
+        if( whichList.contains( x ) )
+    {
+    	//Use remove method from linked list class
+        whichList.remove( x );
+            currentSize--;
+    }
+    }
+
+    /**
+     * Find an item in the hash table.
+     * @param x the item to search for.
+     * @return true if x isnot found.
+     */
+    public boolean contains( AnyType x )
+    {
+
+        List<AnyType> whichList = theLists[ myhash( x ) ];
+        //Use contains method of linked list class
+        return whichList.contains( x );
+    }
+
+    /**
+     * Make the hash table logically empty.
+     */
+    public void makeEmpty( )
+    {
+        for( int i = 0; i < theLists.length; i++ )
+            theLists[ i ].clear( );
+        currentSize = 0;    
+    }
+
+    /**
+     * A hash routine for String objects.
+     * @param key the String to hash.
+     * @param tableSize the size of the hash table.
+     * @return the hash value.
+     */
+    public static int hash( String key, int tableSize )
+    {
+        int hashVal = 0;
+
+        for( int i = 0; i < key.length( ); i++ )
+            hashVal = 37 * hashVal + key.charAt( i );
+
+        hashVal %= tableSize;
+        if( hashVal < 0 )
+            hashVal += tableSize;
+
+        return hashVal;
+    }
+
+    private void rehash( )
+    {
+        List<AnyType> [ ]  oldLists = theLists;
+
+            // Create new double-sized, empty table
+        theLists = new List[ nextPrime( 2 * theLists.length ) ];
+        //Set up array of Linked Lists
+        for( int j = 0; j < theLists.length; j++ )
+            theLists[ j ] = new LinkedList<>( );
+
+            // Copy table over
+        currentSize = 0;
+        //Iterate through linked list in each item of the old hash table
+        for( List<AnyType> list : oldLists )
+            for( AnyType item : list )
+                insert( item );
+    }
+
+    private int myhash( AnyType x )
+    {
+    	//Uses existing hash function that is defined in java
+        int hashVal = x.hashCode( );
+		//Mod by table size
+        hashVal %= theLists.length;
+        //Makes sure that hashVal is positive
+        if( hashVal < 0 )
+            hashVal += theLists.length;
+
+        return hashVal;
+    }
+    
+ //Instance Variables   
+    private static final int DEFAULT_TABLE_SIZE = 101;
+
+        /** The array of Lists. */
+//An Array of Objects that Reference Linked Lists                
+    private List<AnyType> [ ] theLists; 
+//How many elements are inserted into the hash table    
+    private int currentSize;
+//Load Factor currentSize/theLists.length
+//Rehash when currentSize > theLists.length 
+    /**
+     * Internal method to find a prime number at least as large as n.
+     * @param n the starting number (must be positive).
+     * @return a prime number larger than or equal to n.
+     */
+//Checks if the number is prime     
+    private static int nextPrime( int n )
+    {
+        //Make the table size odd
+        if( n % 2 == 0 )
+            n++;
+		
+        for( ; !isPrime( n ); n += 2 )
+            ;
+
+        return n;
+    }
+
+    /**
+     * Internal method to test if a number is prime.
+     * Not an efficient algorithm.
+     * @param n the number to test.
+     * @return the result of the test.
+     */
+    private static boolean isPrime( int n )
+    {
+        if( n == 2 || n == 3 )
+            return true;
+
+        if( n == 1 || n % 2 == 0 )
+            return false;
+		//Check up to squareroot
+        for( int i = 3; i * i <= n; i += 2 )
+            if( n % i == 0 )
+                return false;
+
+        return true;
+    }
+
+
+        // Simple main
+    public static void main( String [ ] args )
+    {
+        SeparateChainingHashTable<Integer> H = new SeparateChainingHashTable<>( );
+
+        long startTime = System.currentTimeMillis( );
+        
+        final int NUMS = 2000000;
+        final int GAP  =   37;
+
+        System.out.println( "Checking... (no more output means success)" );
+
+        for( int i = GAP; i != 0; i = ( i + GAP ) % NUMS )
+            H.insert( i );
+        for( int i = 1; i < NUMS; i+= 2 )
+            H.remove( i );
+
+        for( int i = 2; i < NUMS; i+=2 )
+            if( !H.contains( i ) )
+                System.out.println( "Find fails " + i );
+
+        for( int i = 1; i < NUMS; i+=2 )
+        {
+            if( H.contains( i ) )
+                System.out.println( "OOPS!!! " +  i  );
+        }
+        
+        long endTime = System.currentTimeMillis( );
+        
+        System.out.println( "Elapsed time: " + (endTime - startTime) );
+    }
+
+}
+
+						
+					</code>
+				</pre>	
+    <p class="tab">Quadratic Probing</p>
+        <pre>
+            <code class="java">
+
+// QuadraticProbing Hash table class
+//
+// CONSTRUCTION: an approximate initial size or default of 101
+//
+// ******************PUBLIC OPERATIONS*********************
+// bool insert( x )       --> Insert x
+// bool remove( x )       --> Remove x
+// bool contains( x )     --> Return true if x is present
+// void makeEmpty( )      --> Remove all items
+
+
+/**
+ * Probing table implementation of hash tables.
+ * Note that all "matching" is based on the equals method.
+ * @author Mark Allen Weiss
+ */
+
+public class QuadraticProbingHashTable<AnyType>
+{
+    /**
+     * Construct the hash table.
+     */
+    public QuadraticProbingHashTable( )
+    {
+        this( DEFAULT_TABLE_SIZE );
+    }
+
+    /**
+     * Construct the hash table.
+     * @param size the approximate initial size.
+     */
+
+    public QuadraticProbingHashTable( int size )
+    {
+        allocateArray( size );
+        doClear( );
+    }
+
+    /**
+     * Insert into the hash table. If the item is
+     * already present, do nothing.
+     * @param x the item to insert.
+     */
+
+    public boolean insert( AnyType x )
+    {
+            // Insert x as active
+        int currentPos = findPos( x );
+        if( isActive( currentPos ) )
+            return false;
+        // only increment occupied if the original position is null. We don't want to increment occupied if we are reactivating something
+        if( array[ currentPos ] == null )
+            ++occupied;
+        // Where we create the entry and the reference to that entry at the location    
+        array[ currentPos ] = new HashEntry<>( x, true );
+        theSize++;
+        
+            // Rehash; see Section 5.5
+        if( occupied > array.length / 2 )
+            rehash( );
+        
+        return true;
+    }
+
+    /**
+     * Expand the hash table.
+     */
+
+    private void rehash( )
+    {
+        HashEntry<AnyType> [ ] oldArray = array;
+
+            // Create a new double-sized, empty table
+        allocateArray( 2 * oldArray.length );
+        occupied = 0;
+        theSize = 0;
+
+            // Copy table over
+        for( HashEntry<AnyType> entry : oldArray )
+            if( entry != null && entry.isActive )
+                insert( entry.element );
+   }
+
+    /**
+     * Method that performs quadratic probing resolution.
+     * @param x the item to search for.
+     * @return the position where the search terminates.
+     */
+
+    private int findPos( AnyType x )
+    {
+        int offset = 1;
+        int currentPos = myhash( x );
+//Keep probing while the array is filled at a given location
+// And do not insert duplicates        
+        while( array[ currentPos ] != null &&
+                !array[ currentPos ].element.equals( x ) )
+        {
+            currentPos += offset;  // Compute ith probe
+            offset += 2;
+            if( currentPos >= array.length )
+                currentPos -= array.length;
+        }
+        
+        return currentPos;
+    }
+
+    /**
+     * Remove from the hash table.
+     * @param x the item to remove.
+     * @return true if item removed
+     */
+
+    public boolean remove( AnyType x )
+    {
+        int currentPos = findPos( x );
+        if( isActive( currentPos ) )
+        {
+        //Valid Elements Changed by Load Does not Change
+            array[ currentPos ].isActive = false;
+            theSize--;
+            return true;
+        }
+        else
+            return false;
+    }
+    
+    /**
+     * Get current size.
+     * @return the size.
+     */
+    public int size( )
+    {
+        return theSize;
+    }
+    
+    /**
+     * Get length of internal table.
+     * @return the size.
+     */
+    public int capacity( )
+    {
+        return array.length;
+    }
+
+    /**
+     * Find an item in the hash table.
+     * @param x the item to search for.
+     * @return the matching item.
+     */
+    public boolean contains( AnyType x )
+    {
+        int currentPos = findPos( x );
+        return isActive( currentPos );
+    }
+
+    /**
+     * Return true if currentPos exists and is active.
+     * @param currentPos the result of a call to findPos.
+     * @return true if currentPos is active.
+     */
+    private boolean isActive( int currentPos )
+    {
+        return array[ currentPos ] != null && array[ currentPos ].isActive;
+    }
+
+    /**
+     * Make the hash table logically empty.
+     */
+    public void makeEmpty( )
+    {
+        doClear( );
+    }
+
+//Nulls out every element
+    private void doClear( )
+    {
+        occupied = 0;
+        theSize = 0;
+        for( int i = 0; i < array.length; i++ )
+            array[ i ] = null;
+    }
+    
+    private int myhash( AnyType x )
+    {
+        int hashVal = x.hashCode( );
+
+        hashVal %= array.length;
+        if( hashVal < 0 )
+            hashVal += array.length;
+
+        return hashVal;
+    }
+
+//Nested Static Container Class    
+
+    private static class HashEntry<AnyType>
+    {
+        public AnyType  element;   // the element
+
+//Book Keeping for Lazy Deletion        
+        public boolean isActive;  // false if marked deleted
+
+        public HashEntry( AnyType e )
+        {
+            this( e, true );
+        }
+
+        public HashEntry( AnyType e, boolean i )
+        {
+            element  = e;
+            isActive = i;
+        }
+    }
+
+//Prime Table Size
+    private static final int DEFAULT_TABLE_SIZE = 101;
+//Hash Table Array (Only one element per)
+//Hash Entry is a static nested container class -> contains meta information (book keeps lazy deletion)
+    private HashEntry<AnyType> [ ] array; // The array of elements
+//  How many slots has a piece of data (this is used for the load factor)
+    private int occupied;                 // The number of occupied cells
+//  How many pieces of data are in the hash table
+    private int theSize;                  // Current size
+
+    /**
+     * Internal method to allocate array.
+     * @param arraySize the size of the array.
+     */
+//Taking the reference to the current array and point it to a new array that is prime     
+    private void allocateArray( int arraySize )
+    {
+        array = new HashEntry[ nextPrime( arraySize ) ];
+    }
+
+    /**
+     * Internal method to find a prime number at least as large as n.
+     * @param n the starting number (must be positive).
+     * @return a prime number larger than or equal to n.
+     */
+    private static int nextPrime( int n )
+    {
+        if( n % 2 == 0 )
+            n++;
+
+        for( ; !isPrime( n ); n += 2 )
+            ;
+
+        return n;
+    }
+
+    /**
+     * Internal method to test if a number is prime.
+     * Not an efficient algorithm.
+     * @param n the number to test.
+     * @return the result of the test.
+     */
+    private static boolean isPrime( int n )
+    {
+        if( n == 2 || n == 3 )
+            return true;
+
+        if( n == 1 || n % 2 == 0 )
+            return false;
+
+        for( int i = 3; i * i <= n; i += 2 )
+            if( n % i == 0 )
+                return false;
+
+        return true;
+    }
+
+
+    // Simple main
+    public static void main( String [ ] args )
+    {
+        QuadraticProbingHashTable<String> H = new QuadraticProbingHashTable<>( );
+
+        
+        long startTime = System.currentTimeMillis( );
+        
+        final int NUMS = 2000000;
+        final int GAP  =   37;
+
+        System.out.println( "Checking... (no more output means success)" );
+
+
+        for( int i = GAP; i != 0; i = ( i + GAP ) % NUMS )
+            H.insert( ""+i );
+        for( int i = GAP; i != 0; i = ( i + GAP ) % NUMS )
+            if( H.insert( ""+i ) )
+                System.out.println( "OOPS!!! " + i );
+        for( int i = 1; i < NUMS; i+= 2 )
+            H.remove( ""+i );
+
+        for( int i = 2; i < NUMS; i+=2 )
+            if( !H.contains( ""+i ) )
+                System.out.println( "Find fails " + i );
+
+        for( int i = 1; i < NUMS; i+=2 )
+        {
+            if( H.contains( ""+i ) )
+                System.out.println( "OOPS!!! " +  i  );
+        }
+        
+        long endTime = System.currentTimeMillis( );
+        
+        System.out.println( "Elapsed time: " + (endTime - startTime) );
+    }
+
+}
+                
+            </code>
+        </pre> 
+    <h3>Priority Queues</h3> 
+        <p class="tab">Properties</p><br>
+            <p class="tab2">Each Element has Importance Value to it</p><br> 
+            <p class="tab2">It will dequeue according to the Importance Value. (Seeding)</p><br>
+            <p class="tab2">If you have a bunch of things in the priority queue that has the same priority, the order in which they get selected does not erally matter</p><br>
+            <p class="tab2">A stable priority queue- same priority get selected in order they entered</p><br>
+            <p class="tab2">An unstable priority queue- same priority people get shuffled and get selected after that shuffle.</p><br> 
+            <p class="tab2">Smaller things tend to have higher priority</p><br>            
+            <p class="tab2">Examples: Airplane Boarding, Emergency Room, Computer Tasks (Nice Numbers - Lower has Higher Priority)</p><br>
+            <p class="tab2">Using a Binary Heap(Priority Queue)</p><br>           
+                <p class="tab3">Built from a balanced Binary Tree</p><br>
+                <p class="tab3">1)Keep the tree balanced -> Tree must be complete</p><br>
+                <p class="tab3">2)Heap Order Condition: Defines the relationship between parent and     child node in a binary heap</p><br>
+                <p class="tab3">3)For Every node, each node must be less than or equal to the children.</p><br>
+                <p class="tab3">4)The root of the binary tree will be the first to be deleted</p><br>
+                <p class="tab3">There are no relationship between 2 children. Only relationship between child and the parent.</p><br>            
+        <p class="tab">Methods</p><br>
+            <p class="tab2">Insert Method</p><br>
+                    <p>Insert 8-1</p>
+                    <p>Insert 8-2</p>
+            <p class="tab2">Delete Min</p><br>
+                <p>Insert 8-5</p>
+            <p class="tab2">Building a Heap from an Array of Random Order (Heapify)</p><br>
+                <p>Insert 8-7</p>
+        <p class="tab">Heap Sort: O(nlg(n))</p><br>
+            <p class="tab2">Use Heapify and findMin and Delete Methods</p><br>
+        <p class="tab">Sample Code</p><br>
+            <pre>
+                <code class="java">
+// BinaryHeap class
+//
+// CONSTRUCTION: with optional capacity (that defaults to 100)
+//               or an array containing initial items
+//
+// ******************PUBLIC OPERATIONS*********************
+// void insert( x )       --> Insert x
+// Comparable deleteMin( )--> Return and remove smallest item
+// Comparable findMin( )  --> Return smallest item
+// boolean isEmpty( )     --> Return true if empty; else false
+// void makeEmpty( )      --> Remove all items
+// ******************ERRORS********************************
+// Throws UnderflowException as appropriate
+
+/**
+ * Implements a binary heap.
+ * Note that all "matching" is based on the compareTo method.
+ * @author Mark Allen Weiss
+ */
+
+//Comparable Allows Us to Assign Priorities 
+public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
+{
+    /**
+     * Construct the binary heap.
+     */
+    public BinaryHeap( )
+    {
+        this( DEFAULT_CAPACITY );
+    }
+
+    /**
+     * Construct the binary heap.
+     * @param capacity the capacity of the binary heap.
+     */
+
+    public BinaryHeap( int capacity )
+    {
+        currentSize = 0;
+//We add +1 because location 0 is a dummy location.        
+        array = (AnyType[]) new Comparable[ capacity + 1 ];
+    }
+    
+    /**
+     * Construct the binary heap given an array of items.
+     */
+//Heapify Operation     
+    public BinaryHeap( AnyType [ ] items )
+    {
+            currentSize = items.length;
+            array = (AnyType[]) new Comparable[ ( currentSize + 2 ) * 11 / 10 ];
+
+            int i = 1;
+            for( AnyType item : items )
+                array[ i++ ] = item;
+            buildHeap( );
+    }
+
+    /**
+     * Insert into the priority queue, maintaining heap order.
+     * Duplicates are allowed.
+     * @param x the item to insert.
+     */
+
+    public void insert( AnyType x )
+    {
+        //If we run out of space.
+        if( currentSize == array.length - 1 )
+            enlargeArray( array.length * 2 + 1 );
+
+            // Percolate up
+        //Insert hole 1 past the last occupied element in the array    
+        int hole = ++currentSize;
+        // We are temporarily storing x in location 0. 
+        This allows it so that we don't have to have another check to see if we are the root. 
+        (We just have to check if 0 is the parent. 
+        If yes - root , If no - not root
+        for( array[ 0 ] = x; x.compareTo( array[ hole / 2 ] ) < 0; hole /= 2 )
+            array[ hole ] = array[ hole / 2 ];
+        array[ hole ] = x;
+    }
+
+
+    private void enlargeArray( int newSize )
+    {
+            AnyType [] old = array;
+            array = (AnyType []) new Comparable[ newSize ];
+            for( int i = 0; i < old.length; i++ )
+                array[ i ] = old[ i ];        
+    }
+    
+    /**
+     * Find the smallest item in the priority queue.
+     * @return the smallest item, or throw an UnderflowException if empty.
+     */
+    public AnyType findMin( )
+    {
+        if( isEmpty( ) )
+            throw new UnderflowException( );
+        return array[ 1 ];
+    }
+
+    /**
+     * Remove the smallest item from the priority queue.
+     * @return the smallest item, or throw an UnderflowException if empty.
+     */
+    public AnyType deleteMin( )
+    {
+        if( isEmpty( ) )
+            throw new UnderflowException( );
+
+        AnyType minItem = findMin( );
+        array[ 1 ] = array[ currentSize-- ];
+        percolateDown( 1 );
+
+        return minItem;
+    }
+
+    /**
+     * Establish heap order property from an arbitrary
+     * arrangement of items. Runs in linear time.
+     */
+
+    private void buildHeap( )
+    {
+        for( int i = currentSize / 2; i > 0; i-- )
+            percolateDown( i );
+    }
+
+    /**
+     * Test if the priority queue is logically empty.
+     * @return true if empty, false otherwise.
+     */
+    public boolean isEmpty( )
+    {
+        return currentSize == 0;
+    }
+
+    /**
+     * Make the priority queue logically empty.
+     */
+    public void makeEmpty( )
+    {
+        currentSize = 0;
+    }
+
+    private static final int DEFAULT_CAPACITY = 10;
+
+    private int currentSize;      // Number of elements in heap
+    private AnyType [ ] array; // The heap array
+
+    /**
+     * Internal method to percolate down in the heap.
+     * @param hole the index at which the percolate begins.
+     */
+    private void percolateDown( int hole )
+    {
+        int child;
+        AnyType tmp = array[ hole ];
+
+        for( ; hole * 2 <= currentSize; hole = child )
+        {
+            child = hole * 2;
+            if( child != currentSize &&
+                    array[ child + 1 ].compareTo( array[ child ] ) < 0 )
+                child++;
+            if( array[ child ].compareTo( tmp ) < 0 )
+                array[ hole ] = array[ child ];
+            else
+                break;
+        }
+        array[ hole ] = tmp;
+    }
+
+        // Test program
+    public static void main( String [ ] args )
+    {
+        int numItems = 10000;
+        BinaryHeap<Integer> h = new BinaryHeap<>( );
+        int i = 37;
+
+        for( i = 37; i != 0; i = ( i + 37 ) % numItems )
+            h.insert( i );
+        for( i = 1; i < numItems; i++ )
+            if( h.deleteMin( ) != i )
+                System.out.println( "Oops! " + i );
+    }
+}
+)
+
+                    
+                </code>
+            </pre>
+    <h3>Sorting</h3>
+        <p class="tab">Comparsion Based Sorting Algorithm : O(n<sup>2</sup>)</p><br>
+            <p class="tab2">Selection Sort</p><br>
+                <p class="tab3">Perform a findMin operation and move it to the front of the array.</p><br>
+                <p>8-8</p><br>
+            <p class="tab2">Insertion Sort</p><br>
+                <p class="tab3">Taken unsorted portion and insert into sorted portion of the array</p><br>
+                <p>8-9</p><br>    
+            <p class="tab2">Merge Sort</p><br>
+                <p class="tab3">Big O : nlog(n)</p>
+                <p class="tab3">Psuedo Code:</p><br>
+                    <pre>
+                        <code>
+arr[] mergeSort(arr[] a){
+
+    if(a.length <= 1){
+        return a
+    }
+    //Physically split the array in half and independently sort them
+    arr[] a1 = mergeSort(first half of a)
+    arr[] a2 = mergeSort(second half of a)
+
+    //Fuse the independently sorted arrays and fuse them
+    //Compare the two elements and write down the smaller into the new array increment the counter of the element that won
+    return merge (a1, a2)
+
+} 
+arr[] merge(arr[] a1, arr[] a2)                           
+                        </code>
+                    </pre>
+</body>
+</html>

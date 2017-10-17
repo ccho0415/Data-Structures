@@ -1,0 +1,332 @@
+Final Topics By Weiss Chapter:
+
+Chapter 1: 
+
+-skim
+
+- Basic proofs by induction.  Proofs by counter example.
+
+  Note: The first exam question will likely be an induction proof, probably
+  on a basic property of a binary search tree.
+
+- Recursion and the rules of recursion.
+    1. Base case
+    2. Make progress towards the Base Case.
+    3. Assume recursive call works
+    4. Compound Interest
+
+  I did the tower of hanoi problem in class as an example of recursion
+  that is not in the text book.  You should look at the notes on that 
+  as well.
+
+- Generics - provided
+
+- Static Nested - Nodes (No Access to Outer)
+- Inner class - Iterators (Need Access to Outer)
+    Iterator : to allow you to step through a list one element at a time and remember where you were
+      hasNext() to see if at the end
+      Next() return current and advance
+    Needs a reference of the instance variables of an instance of a list itself. 
+    Iterable - Enhanced For Loop 
+
+
+Chapter 2:
+
+You are responsible through section 2.4.2. I didn't go through many of the
+examples after that.
+
+- Big-O notation for asymptotic running time: O(f(n)), big-theta(f(n)), and
+  big-omega(f(n)).
+
+- Worst case, best, case, average case.
+
+- The various techniques and rules for analyzing the running time.
+
+
+- Relative speeds of common run times.
+  What's faster and slower.
+
+
+Chapter 3: 
+
+You are responsible for the entire chapter
+
+- The List ADT, including typical List operations.
+
+- ArrayList:
+  - How implemented
+  - running time for insert, remove, find at different positions in the list. 
+  - what to do when we run out of space / how to resize
+
+- LinkedList:
+  - single vs. double
+  - running times
+  - sentinel nodes
+  - iterators
+
+- the stack ADT and its operations and various implementations
+
+- stack applications:
+  - symbol balancing
+  - reversing lists
+  - evaluating post-fix expressions
+  -palindromes
+
+- Queue ADT and its operations and implementations
+  - how to implement with stack.
+
+
+Chapter 4: - 4.4 and skim 4.6
+
+You are responsible through section 4.4
+
+- General trees and the firstChild, nextSibling representation
+
+- Traversing general trees.
+
+- Binary Trees and their representations
+
+- Expression trees and the various algorithms associated with them
+
+- Binary Search Trees and all of the associated methods and run times
+
+
+- Lazy Deletion vs. Full deletion
+
+- AVL Trees and their rotations
+
+- Big O Balanced vs Not
+
+Be able to perform multiple inserts into an AVL tree and show the rotations
+
+
+Chapter 5: 
+
+You are responsible through section 5.5 and should also skim section
+5.6. I also spent a bit of time talking about Maps in java which you
+should look over a bit.
+
+- General idea of hashing.
+
+- Hash functions and their uses
+
+- Hash tables
+
+- The load factor (little lambda)
+  < 1
+
+- Collision Resolution Strategies:
+
+  - Separate chaining
+    - doubly linked list, doesnt matter where you add
+    - If singly linked list, you add at end
+  - Probing/Open Addressing Schemes
+    - Linear Probing
+    - Quadratic Probing (in parituclar remember that the table size must 
+      be prime and the load can't go over .5)
+        -Size of Array is Prime
+        -Probing Function
+         (Hash value) h-i(x) = (hash(x) + f(i)) % table size  
+    - hash(x)
+    - Double Hashing (don't worry about this one too much, just know 
+      it's possible)
+
+It is possible that I might ask you perform inserts on a table using
+one or more of these strategies on the exam.
+
+- Rehashing
+
+- The lazy deletion strategy needed for probing techniques.
+
+
+Chapter 6: 
+
+You are responsible for chapter six through section 6.3.
+
+- Know what a priority queue is and that it can be implemented with a
+  binary heap.
+
+- Know how to represent a complete binary tree with an array.
+
+- Understand what how a binary heap is structured and what the heap
+  condition is.  You should be able to recognize whether an array is
+  heap ordered or not.
+
+- Know the difference between a min-heap and a max-heap
+
+- difference between perfect complete and full binary tree
+
+- Understand how the percolate up and percoulate down operations work
+  and how they related to insert and deleteMin operations. Know the
+  analysis of these operations.
+
+
+- Be familiar with the O(N) buildheap operation.
+
+- (Related to the next chapter) be familiar with using a heap to
+  perform heap sort in O(N*logN) time.
+
+- minHeap : node <= children ; tree = complete
+
+
+Chapter 7:
+
+You are responsible for Chapter 7.1, 7.2, 7.3(skim), 7.5, 7.6, and 7.7
+
+- Be familiar with selection sort (actually this is not in the text
+  book, but it's just where you keep selecting the smallest value in
+  what remains of the ray and putting into position in the front
+  sorted portion). Be familar with its best and worse case analysis (
+  O(N^2) in both best and worst cases).
+
+- Be familiar with insertion sort and it's analysis (O(N) in the best
+  case, O(N^2) in the worst case).
+
+- Remember the recursive merge sort and its merge operation.  Remember
+  that it is an O(N*logN) algorithm in the worst case.
+
+- (Related to the previous chapter) Be familiar with heap sort and its
+  analysis.
+
+- Be familiar with Quicksort.  Remember how to choose pivots (median
+  of 3) and how the partition algorithm is performed.  Also remember
+  that while quicksort is O(NlogN) in the average case, it is actually
+  O(N^2) in the worst case.
+    -
+
+-pivot selection strategy
+
+-partition
+
+Chapter 8:
+  - union and find and how to use in kruskals
+We will touch on this very briefly on disjoint sets in the last
+lecture.  You should skim 8.1 through 8.3.  Basically you just need to
+know what a union and find is to perform the minimum spanning tree
+algorithm that we will see later in the lecture.  It is unlikely that
+disjoint sets will be tested in any meaningful way on the final, so
+don't worry about it too much.
+
+Chapter 9:
+
+You are responsible for sections 9.1 through 9.3.2, 9.5, and 9.7.
+
+- Graphs and various definitions associated with them. Remember that a
+  graph is made up of both edges ( E ) and vertices ( V ). And that
+  our runtime analysis of graph algorithms will be in terms of |V| and
+  |E| (the sizes of those sets).
+
+- Adjacency list vs. adjacency matrix methods for representing graphs.
+
+- Be familiar the difference between a sparse and dense graph.  In a
+  sparse graph, |E| = O(|V|), in a dense graph |E| = O(|V|^2).
+
+- Topological sorting. Be familiar with the idea that it can be used
+  to solve many different types of problems in which there are
+  dependancies.
+    - Big O Cost
+    - What problems
+
+- Be familiar with what an indegree is of a vertex and how it is used
+  to solve the topological sorting problem.
+
+- Be familiar with both the simple algorithm ( O(|V|^2 ) and the queue
+  based algorithm ( O(|V| + |E| ) for solving topological sort.  Note
+  that the queue based algorithm gives better performance in the case
+  of a sparse graph, but the same in the case of a dense graph.
+
+- Be familiar with the single source shortest path problem for
+  directed graphs.
+
+- Be familiar with the unweighted variant of this problem that can be
+  solved by performing a breadth first search on the tree.
+
+- Be familiar with both the simple algorithm ( O(|V|^2 ) and the queue
+  based algorithm ( O(|V| + |E| ) for solving the unweighted single
+  source shortest paths problem.  Note that the queue based algorithm
+  gives better performance in the case of a sparse graph, but the same
+  in the case of a dense graph.
+
+- Be familiar with the weighted variant of the shortest paths problems
+  and its solution, dijkstra's algorithm.
+
+- Be familiar with the simple algorithm O(|V|^2) and the priority
+  queue based algorithm (O(|E|log(|V|)) for dijkstra's algorithm.
+  Note that the simple variation is actually faster for dense graphs,
+  while the PQ based version is faster for sparse graphs.
+
+NOTE: I will ask you to run through dijkstra's algorithm and graph on
+the final exam.  You will need to step through it using a chart based
+notation, keeping track of the dv's with each update.
+
+- Be familiar with the concept of a minimum spanning tree (MST).  
+
+- Be familiar with prim's algorithm (a variant of dijkstra's
+  algorithm) for solving the MST problem.
+
+- Be familiar with kruskal's algorithm for solving the MST problem.
+
+Note: You will most likely be asked to identify an MST in a given
+graph.  I'll probably ask you to do that via krukal's algorithm.
+
+- Be familiar with the class of problems P vs. the class problems NP.
+  Also be familiar with the definition of NP-complete.  
+
+Note: I will as a *very* simple word problem based on this last topic,
+so you don't have to understand it in a huge amount of depth.
+
+-O(E) - Mag of Edges
+-O(V) - Mag of V
+-Dense graph (every vertex has a connection to each other) O(E) = O(V^2);
+-Sparse graph (not every vertex has a connection to each other) O(E) = O(V);
+
+-Topological : O(E)
+
+Djkstra
+  Priority Queue + Dense -> not log N (There is V squared)
+  Priority Queue + Sparse -> log N
+
+
+-Tower of Hanoi
+
+
+Problems:
+
+  Induction Problem - Property of a Graph
+    Practice on Tree Problem
+
+  What is the cost of this algo / rank the costs
+
+  Be sure to be able to write recursive methods on Tree
+  
+  AVL Trees  
+
+  It is possible that I might ask you perform inserts on a table using
+one or more of these strategies on the exam.
+  
+  Rehash
+  
+  Insert into hash table
+    mod by 11
+  
+  Lazy Deletion  
+  
+  Know how to represent a complete binary tree with an array.
+  
+  Programming Problem Chapter 6
+
+  Djkstra's Algorithm
+  
+  Kruskall's Algorithm
+  
+  9.7 - NP Complete Problem -> P vs NP
+
+  Describle a Graph
+    Directed or Not
+    Connected, Disconnected
+    Weakly Connected, Strongly
+    ????
+    No Sparse vs Dense but remember definitions
+
+
+

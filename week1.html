@@ -17,35 +17,222 @@
         .tab3{
         	display: inline-block;
 			margin-left: 80px;
-        }           
+        }
+        h3{
+        	background-color: #bef3f3;
+        	color: #ff9933;
+        	text-align: center;
+        	padding: 10px;
+        } 
+        .comment{
+			margin:0px;
+			font-size: 14px;
+			margin-left: 40px;
+        }
+        table {
+    		border-collapse: collapse;
+    		width: 100%;
+		}	
+
+		th, td {
+    		padding: 8px;
+    		text-align: left;
+    		border-bottom: 1px solid #ddd;
+
+		}
+		th {
+    		background-color: #4CAF50;
+    		color: white;
+		}
+		tr:hover{background-color:#ff9933}          
     </style>	
 </head>
 <body>
-	<h3>What is a data structure?</h3>
-		<p class="tab">A data structure is a way of organizing information</p>
-	<h3>What is an algorithm?</h3>
-		<p class="tab">An algorithm is a sequence of steps that is performed on a data structure in order to solve certain tasks</p>	
-	<h3>Basic Data Structures Topics</h3>
-		<p class="tab"><strong>What is an Array?</strong></p><br>
-			<p class="tab2">A data structure that contains a contiguous set of elements where you only need to know the location of the initial element location in order to find the entire structure</p><br>
-		<p class="tab"><strong>Types of Searches for Array</strong></p><br>
-			<p class="tab2">Unsorted</p><br>
-				<p class="tab3"><b>Linear/Sequential Search </b>: O(n)</p><br>
-			<p class="tab2">Sorted</p><br>
-				<p class="tab3"><b>Binary Search </b>: O(lg(n))</p>	<br>
-		<p class="tab"><strong>What is an Array List</strong></p><br>
-			<p class="tab2">A class that wraps around an Array that allows you to use methods to resize, change and grow the array as needed</p><br>
-		<p class ="tab"><strong>Example of an Array List</strong></p><br>
+	<h3>What is a data structure?</h3><br>
+		<p class="tab">A data structure is a way of organizing information so it can be used efficiently.</p><br>
+	<h3>What is an algorithm?</h3><br>
+		<p class="tab">An algorithm is a sequence of steps that is performed on a data structure in order to solve certain tasks</p><br>	
+	<h3>Basic Data Structures Topics</h3><br>
+		<p class ="tab"><strong>What is a Linked List?</strong></p><br>
+			<p class = "tab2">A data structure that has a node with data, and a reference to the next element of the list(singly) or a reference to the next and previous elements of the list (doubly) </p><br>
+			<img height= "500px" width= "auto"src="lec1-1.png"><br>
+	<h3>Generics</h3><br>
+		<p class="tab"><strong>What is a generic?</strong></p><br>
+			<p class="tab2">It is a mechanism that supports code reuse.</p><br>
+		<p class="tab"><strong>Wrappers</strong></p><br>
+			<p class="tab2">A wrapper class is a technique that stores a primitive type and add operations to the primitive type.</p><br>
+			<p class="tab2">Wrappers are typically immutable.</p><br>
+			<pre>
+				<code class="java">
+public class TestMemoryCell{
+	public static void main( String [ ] args ){
+		MemoryCell m = new MemoryCell( );
+
+		m.write( "37" );
+		String val = (String) m.read( );
+		System.out.println( "Contents are: " + val );
+	}
+}					
+				</code>
+			</pre>
+			<p class="comment">Here we are using the (String) Wrapper to store the string primitive datatype.</p><br>
+		<p class="tab"><strong>Using Interface Types for Genericity</strong></p><br>
+			<p class="tab2">Using Interfaces can extend the options of operations that we can peform on to the generics.</p>
+			<pre>
+				<code class="java">
+class FindMaxDemo{
+/**
+* Return max item in arr.
+* Precondition: arr.length > 0
+*/
+	public static Comparable findMax( Comparable [ ] arr ){
+		int maxIndex = 0;
+
+		for( int i = 1; i < arr.length; i++ )
+			if( arr[ i ].compareTo( arr[ maxIndex ])>0)
+				maxIndex = i;
+
+		return arr[ maxIndex ];
+	}
+
+/**
+* Test findMax on Shape and String objects.
+*/
+	public static void main( String [ ] args ){
+		Shape [ ] sh1 = { new Circle( 2.0 ),
+						  new Square( 3.0 ),
+						  new Rectangle( 3.0, 4.0 ) };
+
+		String [ ] st1 = { "Joe", "Bob", "Bill", "Zeke" };
+
+ 		System.out.println( findMax( sh1 ) );
+ 		System.out.println( findMax( st1 ) );
+ 	}
+}					
+				</code>
+			</pre>	
+	<p class="comment"> Here we use the Comparable Interface to compare generics</p><br>
 			<pre>
 				<code class ="java">
-	ArrayList<AnyType> myArray = new ArrayList<Integer>();
-				</code>				
-			</pre>
+public class Person implements Comparable<Person> {
 
-			<br><br>
-		<p class ="tab"><strong>What is a Linked List</strong></p><br>
-			<p class = "tab2">A data structure that has a node with data, and a reference to the next element of the list(singly) or a reference to the next and previous elements of the list (doubly) </p><br>	
-	<h3>Generics</h3>
+    private String firstName;
+    private String lastName;
+
+    public Person(String last, String first) {
+        lastName = last;
+        firstName = first;
+    }
+
+    @Override
+    public int compareTo(Person other) {
+        int lastNameComp = lastName.compareTo(other.lastName);
+        if (lastNameComp == 0)
+            return firstName.compareTo(other.firstName);
+        else 
+            return lastNameComp;
+    }
+
+    @Override
+    public String toString() {
+        return firstName+" "+lastName;
+    }
+
+}
+				</code>		
+			</pre>
+	<p class="comment"> Here we implement the Comparable Interface to compare Strings</p><br>
+	<p class="tab"><strong>Diamond Operator</strong></p><br>
+		<p class="tab2">The < > Operator simplifies Generic Code.</p><br>
+		<pre>
+			<code class="java">
+class BoxingDemo{
+	public static void main( String [ ] args ){
+		GenericMemoryCell<Integer> m = new GenericMemoryCell<>( );
+
+		m.write( 5 );
+		int val = m.read( );
+		System.out.println( "Contents are: " + val );
+	}
+}				
+			</code>
+		</pre>
+		<p class="comment">Here we use the < > to make it so that line 5 isn't so cumbersome</p>
+	<p class="tab"><strong>Wildcards</strong></p><br>
+		<p class="tab2">Wild cards are used to express sub classes or super classes of parameter types. This allows for more objects to be able to be passed as acceptable parameters</p><br>
+		<pre>
+			<code class="java">
+public static double totalArea( Collection<? extends Shape> arr ){
+	double total = 0;
+
+	for( Shape s : arr )
+		if( s != null )
+			total += s.area( );
+	return total;
+}
+			 </code>
+		</pre>
+		<p class="comment">Here we use ?extends to allow Collections<Square> and Collections<Shape> to be able to be passed without any error </p><br>
+	<p class="tab"><strong>Type Bound</strong></p>
+		<p class="tab2">A Type bound is specified inside < >  and it specifies properties that the parameter types must have. This gurantees to the compiler that the generic being past can use specific operations.</p><br>
+		<pre>
+			<code class="java">
+public static <AnyType extends Comparable<? super AnyType>>
+	AnyType findMax( AnyType [ ] arr ){
+		int maxIndex = 0;
+
+		for( int i = 1; i < arr.length; i++ )
+			if( arr[ i ].compareTo( arr[ maxIndex ])>0)
+				maxIndex = i;
+
+		return arr[ maxIndex ];
+}				
+			</code>
+		</pre>
+		<p class="comment">Here we gurantee the compiler that the AnyType that is being passed can use the compareTo method.</p><br>
+	<p class="tab"><strong>Binary Search Generics</strong></h4><br>
+		<pre>
+			<code class ="java">
+public class BinarySearchGenerics {
+
+    /**
+     * Perform binary search. 
+     * @param a the array to be searched
+     * @param x the key to search for
+     * @return if found: index of the key in a, otherwise -1
+     */
+    public static <AnyType extends Comparable<AnyType>> 
+      int binarySearch(AnyType[] a, AnyType x) {
+
+        int low = 0;
+        int high = a.length -1;
+  
+        int mid; 
+        
+        while (low<=high) {
+            mid = (low+high) / 2;
+            System.out.println(mid+" "+a[mid]);
+            if (a[mid].compareTo(x) < 0) { // x is in second half
+                low = mid + 1;
+            } else if (a[mid].compareTo(x) > 0) { // x is in first half
+                high = mid -1;
+            } else {
+                return mid;
+            } 
+        }
+        return -1;
+    }
+
+
+    public static void main(String[] args) {
+        Integer[] test = {0,5,10,13,15,23,42,217,1024,4929};
+
+        int index = BinarySearchGenerics.binarySearch(test, 1024);
+    }
+
+}
+			</code>			
+		</pre>		
 	<h3>Interfaces</h3>
 		<p class ="tab"><strong>What is an Interface?</strong></p><br>
 			<p class = "tab2"> An Interface is a set of operations.</p><br>
@@ -179,49 +366,7 @@ java LLNode<AnyType> { AnyType data; LLNode<AnyType> next; LLNode<AnyType> prev;
 				<p class ="tab3">Since you can move in both directions, there is a reference to both the first and last elements of the list</p><br>	
 				<p class ="tab3">the first and last nodes of a doubly linked list don’t actually store data (as sentinel nodes) and are the only references stores</p><br>
 	<h3>Code Examples</h3>
-		<h4 class="tab">Binary Search Generics</h4>
-		<pre>
-			<code class ="java">
-public class BinarySearchGenerics {
 
-    /**
-     * Perform binary search. 
-     * @param a the array to be searched
-     * @param x the key to search for
-     * @return if found: index of the key in a, otherwise -1
-     */
-    public static <AnyType extends Comparable<AnyType>> 
-      int binarySearch(AnyType[] a, AnyType x) {
-
-        int low = 0;
-        int high = a.length -1;
-  
-        int mid; 
-        
-        while (low<=high) {
-            mid = (low+high) / 2;
-            System.out.println(mid+" "+a[mid]);
-            if (a[mid].compareTo(x) < 0) { // x is in second half
-                low = mid + 1;
-            } else if (a[mid].compareTo(x) > 0) { // x is in first half
-                high = mid -1;
-            } else {
-                return mid;
-            } 
-        }
-        return -1;
-    }
-
-
-    public static void main(String[] args) {
-        Integer[] test = {0,5,10,13,15,23,42,217,1024,4929};
-
-        int index = BinarySearchGenerics.binarySearch(test, 1024);
-    }
-
-}
-			</code>			
-		</pre>
 
 	<h4 class="tab">Factorial</h4>
 	<pre>
@@ -295,36 +440,6 @@ public class Fib {
 			</code>			
 		</pre>
 
-	<h4 class="tab">Person</h4>
-	<pre>
-		<code class ="java">
-public class Person implements Comparable<Person> {
-
-    private String firstName;
-    private String lastName;
-
-    public Person(String last, String first) {
-        lastName = last;
-        firstName = first;
-    }
-
-    @Override
-    public int compareTo(Person other) {
-        int lastNameComp = lastName.compareTo(other.lastName);
-        if (lastNameComp == 0)
-            return firstName.compareTo(other.firstName);
-        else 
-            return lastNameComp;
-    }
-
-    @Override
-    public String toString() {
-        return firstName+" "+lastName;
-    }
-
-}
-		</code>		
-	</pre>
 
 	<h4 class="tab">Tower of Hanoi</h4>
 		<pre>

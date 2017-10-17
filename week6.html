@@ -1,0 +1,115 @@
+<!DOCTYPE>
+<html>
+<head>
+	<title>Week 4</title>
+    <meta charset="utf-8">
+	<link rel="stylesheet" href="styles/monokai-sublime.css">
+	<script src="highlight.pack.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>	
+    <style type="text/css">
+        .tab { 
+            display:inline-block; 
+            margin-left: 40px; } 
+        .tab2{
+            display:inline-block; 
+            margin-left: 60px;
+        } 
+        .tab3{
+            display:inline-block; 
+            margin-left: 80px;            
+        }  
+        .tab4{
+            display:inline-block; 
+            margin-left: 100px;            
+        } 
+        h3{
+            background-color: #bef3f3;
+            color: #ff9933;
+            text-align: center;
+            padding: 10px;
+        }                
+    </style>
+</head>
+<body>
+ <h3> Disjoint Sets</h3>
+    <p class="tab">What is it?</p><br>
+        <p class="tab2">Figure out whether a pair of items belong to each other</p><br>
+    <p class="tab">Methods</p><br>
+        <p class="tab2">Union</p><br>
+            <p class="tab3">Between Two Sets. Making 2 sets equivalent to each other by Pointing one set to another set. Each set will be represented by a tree and the set id by the root of the tree. You always call the union of the find of the sets you want to equate</p> <br>  
+        <p class="tab2"> Find</p><br>
+            <p class="tab3"> Finding the set id</p> <br>  
+        <p class="tab2">Insert 11-4</p><br>          
+ <h3>Minimum Spanning Tree</h3>
+    <p class="tab">What is it?</p><br>
+        <p class="tab2">An algorithm that applies to undirected graphs. A subset of the original graph.</p><br>
+            <p class="tab3"></p><br>
+    <p class="tab">Characteristics</p><br>
+        <p class="tab2">Contains all the vertices but only some of the edges</p><br>        
+        <p class="tab2">The tree visits all the vertices.</p><br> 
+        <p class="tab2">We want the smallest weight.</p><br> 
+    <p class="tab">Examples</p><br>      
+        <p class="tab2">INSERT 11-1 11-2</p><br>
+        <p class="tab2"> Real World Examples : </p><br>
+            <p class="tab3">Utilities -> Power Gridding a Neighborhood</p><br>
+            <p class="tab3">Ethernet Wiring</p><br>
+    <p class="tab">Algorithms (Both Greedy)</p><br>
+        <p class="tab2">Prim's Algorithm</p><br>
+            <p class="tab3">Sequentially incorporate a new vertex into the tree each time as cheaply as you possibly can.</p><br>
+            <p class="tab3">Only cares about cost of incorporating a node into the tree.</p><br>
+            <p class="tab3">Only cares about increments between 2 nodes</p><br>
+            <p class="tab3"> Insert 11-3</p>
+        <p class="tab2">Kruskall's Algorithm</p><br> 
+            <p class="tab3">Incorporate a new edge into the tree each time as cheaply as you possibly can</p><br>
+            <p class="tab3">Update : Unify the sets of vertices(endpoints)</p><br>
+            <p class="tab3">How to Determine Cycles: Disjoint Set</p><br> 
+                <p class="tab4">We are collecting the vertices into the sets.</p><br>
+                <p class="tab4">If there are edges that make a cycle there would be duplicates of the endpoints that would be found in the union.</p>
+            <p class="tab3"> Code</p><br>
+                <pre>
+                    <code class="java">
+
+ArrayList<Edge> kruskal( List<Edge> edges, int numVertices ){
+    DisjSets ds = new DisjSets( numVertices );
+
+    PriorityQueue<Edge> pq = new PriorityQueue<>( edges );
+    List<Edge> mst = new ArrayList<>( );
+// Outer loop Could happen magnitude E times because there can be more edges than vertices
+    while( mst.size( ) != numVertices - 1 ){
+        Edge e = pq.deleteMin( ); // Edge e = (u, v)
+        SetType uset = ds.find( e.getu( ) );
+        SetType vset = ds.find( e.getv( ) );
+        if( uset != vset ){
+// Accept the edge
+            mst.add( e );
+            ds.union( uset, vset );
+        }
+    }
+    return mst;
+}                                          
+                    </code>
+                </pre>
+            <p class="tab3">Big O : e (log e)</p><br>
+    <h3>NP Completeness</h3>  
+        <p class="tab">Algorithms that are Solvable in Polynomial Time : P</p><br>
+            <p class="tab2"></p><br> 
+        <p class="tab">NP : Non Deterministic Polynomial Time -> no solvable in polynomial time but verifiable in polynomial time</p><br>
+            <p class="tab2">Solutions can be verified in polynomial time.</p><br>
+            <p class="tab2">P can be NP. P Solutions can be verified in polynomial time</p><br>
+        <p class="tab">NP Complete : Subset of NP Problems. Hardest of NP Problems.</p><br>
+            <p class="tab2">If you solve one of the problems in polynomial time. You can manipulate the solution so you can solve all NP Complete problems in polynomial time.</p><br>
+            <p class="tab2">Example of of NP Complete Problem</p><br>
+                <p class="tab3">TSP</p> <br> 
+                    <p class="tab4"><strong>Bounded</strong></p><br>                
+                    <p class="tab4">Find a simple cycle that visits every vertex once, and whose total length (sum of weights of edges) < k </p><br>
+                    <p class="tab4">How to Verify: Add all the edges and see if it's less than k</p><br>
+                    <p class="tab4"><strong>Optimization</strong></p><br> 
+                    <p class="tab4">Find the smallest cycle that visits every vertex once, and whose total length (sum of weights of edges) </p><br>
+                    <p class="tab4">How to Verify: We don't know how to verify within polynomial time.</p><br>
+                    <p class="tab4"> ^ This is called NP Hard</p><br>
+            <p class="tab2">Approximation Algorithm</p><br>
+                <p class="tab3">Greedy - TSP</p><br> 
+                    <p class="tab4">Not a great solution but it is a fast solution</p><br>   
+
+</body>
+</html>
