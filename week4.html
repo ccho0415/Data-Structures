@@ -38,7 +38,7 @@
 		<p class="tab">Types of Probing</p><br>
 			<p class="tab2">Linear Probing: Start with Original Location, add +1 and mod by table size until you find an empty spot to insert into</p><br>
 				<p class="tab3">f(i)=i</p><br>
-				<p class="tab3">Insert 7-1</p><br>	
+				<img height= "500px" width= "auto"src="lec7-1.png"><br>
 				<p class="tab3">Problems: Primary Clustering -> When you have to add +1 too many times in order to find an empty spot to insert into (In example hash(28) you would have to add 1 around 4 times)</p><br>
 				<p class="tab3">Contains Function: Use the Formula</p><br>
 					<p class="tab4">If we use an empty cell as an indicator that the hash table does not contain the value, this can cause issues if you remove carelessly.(There is an empty cell between 2 values).</p><br>
@@ -48,10 +48,10 @@
 				<p class="tab3">Careful: Unless if your table size is prime, you may infinitely loop over</p><br>
 				<p class="tab3">Load Factor < 0.5 </p>
 					<p class="tab4">0 <= i <= TableSize/2 </p>
-				<p class="tab3">Insert 7-2</p><br>
+				<img height= "500px" width= "auto"src="lec7-2.png"><br>
 				<p class="tab3">Proof by Contradiction: Table Size must be Prime.</p>
 					<p class="tab4">Assume: 0<= i,j, <= TableSize/2 <br> i!= j <br> TableSize = prime</p><br>
-					<p class="tab4">Insert 7-3</p><br>
+					<img height= "500px" width= "auto"src="lec7-3.png"><br>
 		<h3>Sample Code</h3>
 			<p class="tab">Seperate Chaining</p>
 				<pre>
@@ -631,12 +631,15 @@ public class QuadraticProbingHashTable<AnyType>
                 <p class="tab3">There are no relationship between 2 children. Only relationship between child and the parent.</p><br>            
         <p class="tab">Methods</p><br>
             <p class="tab2">Insert Method</p><br>
-                    <p>Insert 8-1</p>
-                    <p>Insert 8-2</p>
+                    <img height= "500px" width= "auto"src="lec8-1.png"><br>
+                   <img height= "500px" width= "auto"src="lec8-2.png"><br>
+                   <img height= "500px" width= "auto"src="lec8-3.png"><br>
+                   <img height= "500px" width= "auto"src="lec8-4.png"><br>
             <p class="tab2">Delete Min</p><br>
-                <p>Insert 8-5</p>
+                <img height= "500px" width= "auto"src="lec8-5.png"><br>
+                <img height= "500px" width= "auto"src="lec8-6.png"><br>
             <p class="tab2">Building a Heap from an Array of Random Order (Heapify)</p><br>
-                <p>Insert 8-7</p>
+                <img height= "500px" width= "auto"src="lec8-7.png"><br>
         <p class="tab">Heap Sort: O(nlg(n))</p><br>
             <p class="tab2">Use Heapify and findMin and Delete Methods</p><br>
         <p class="tab">Sample Code</p><br>

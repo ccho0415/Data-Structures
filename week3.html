@@ -71,13 +71,13 @@ public class ExpressionTester{
         <p class="tab2">Base Case: h=0</p><br>
         <p class="tab2">2<sup>0</sup> = 1</p><br>
         <p class="tab2">Assume that all perfect binary trees of height n where n goes from 0 to h have 2<sup>n</sup> leaves</p><br>
-        <p class="tab2">INSERT lec 5-1</p><br>
+        <img height= "500px" width= "auto"src="lec5-1.png"><br>    
     <p class="tab2">Total nodes in perfect binary tree of height h is 2<sup>h+1</sup>-1</p><br>
         <p class="tab2">Base Case: h=0</p><br>
         <p class="tab2"> 2<sup>0+1</sup>-1 = 2-1 = 1</p><br>
         <p class="tab2">assume true for heights 0 to h</p><br>
         <p class="tab2"> prove < <sup>height</sup> h +1  -> # nodes -> 2<sup>h+2</sup>-1</p><br>
-        <p class="tab2"> INSERT lect 5-2</p><br>
+        <img height= "500px" width= "auto"src="lec5-2.png"><br>
     <h3>Binary Search Trees (BST)</h3><br>
         <p class="tab">BST Condition</p><br>
             <p class="tab2">Stores data that can be compared</p><br>
@@ -88,7 +88,9 @@ public class ExpressionTester{
             <p class="tab2">There are no duplicate values for the nodes</p><br>
             <p class="tab2">These conditions must hold true for all nodes in the tree</p><br>
         <p class="tab">Picture Example</p><br>
-            <p class="tab2">INSERT 5-3 and 5-4 and 5-5</p><br>  
+        <img height= "500px" width= "auto"src="lec5-3.png"><br>
+        <img height= "500px" width= "auto"src="lec5-4.png"><br>
+        <img height= "500px" width= "auto"src="lec5-5.png"><br>  
         <p class="tab">Find Min and Find Max</p><br>
             <p class="tab2">Find Min -> Keep going down left</p><br>
             <p class="tab2">Find Max -> Keep going down right.</p><br>
@@ -97,7 +99,7 @@ public class ExpressionTester{
             <p class="tab2">Removing a Node with 1 Child : bring that child up one height</p><br>
             <p class="tab2">Removing a Node with 2 Children : Trickier. There are more options.</p><br>
             <p class ="tab2">Replace with largest node in left sub tree or the smallest node in the right sub tree</p><br>  
-                <p class="tab3">Insert 5-6</p>
+            <img height= "500px" width= "auto"src="lec5-6.png"><br>
         <p class="tab2">BST Sample Code</p><br>    
             <pre>
                 <code class="java">            
@@ -462,15 +464,20 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
                 <p class="tab3">It also adheres to an AVL condition / Balance Condition</p><br>
                     <p class="tab4">The left sub tree's height cannot be more than 1 away from the right subtree height.</p>  
             <p class="tab2">How to Determine if it is an AVL Tree</p>
-                <p class="tab3">Insert 5-7 - 5-9</p><br>  
+                <img height= "500px" width= "auto"src="lec5-7.png"><br>
+                <img height= "500px" width= "auto"src="lec5-8.png"><br>
+                <img height= "500px" width= "auto"src="lec5-9.png"><br>
                 <p class="tab3">As long as we book keep the height within the nodes (store the height within the node), figuring out whether it is AVL compliant will be a constant time function</p>
             <p class="tab2">How to Fix a Broken AVL Tree</p><br>
-                <p class="tab3">Insert 5-10</p><br>
+                <img height= "500px" width= "auto"src="lec5-10.png"><br>
+                <img height= "500px" width= "auto"src="lec5-11.png"><br>
+                <img height= "500px" width= "auto"src="lec5-12.png"><br>
             <p class="tab2">AVL Notation</p><br>
-                <p class="tab3">Insert 5-13</p><br>   
+            <img height= "500px" width= "auto"src="lec5-13.png"><br> 
             <p class="tab2">AVL Examples</p> <br>
-                <p class="tab3">Insert 5-14</p> <br>
-                <p class="tab3">Insert 6-1 6-2</p>
+                <img height= "500px" width= "auto"src="lec5-14.png"><br>
+                <img height= "500px" width= "auto"src="lec6-1.png"><br>
+                <img height= "500px" width= "auto"src="lec6-2.png"><br>
                 <p class="tab3">Links Break with Each Rotation, Some Nodes Drop, Some SubTrees are Orphaned. Orphaned SubTrees Usually are inserted back into their place later.</p><br>
                 <p class="tab3">All Operations will be lg N</p><br>         
             <a href="https://www.cs.usfca.edu/~galles/visualization/AVLtree.html">AVL Tree Visualization</a> <br>
@@ -976,7 +983,7 @@ public static int hash(String key, int tableSize){
 }                        
                     </code>
                 </pre>
-            <p class="tab2">Insert 6-3?</p>
+            <img height= "500px" width= "auto"src="lec6-3.png"><br>
             <p class="tab2">Seperate Chaining</p>
             <p class="tab2">Rehashing</p>
                 <p class="tab3"></p>        
